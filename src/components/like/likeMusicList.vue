@@ -70,9 +70,6 @@ export default {
         : this.$store.userLikeMusic;
     },
   },
-  mounted:function(){
-    this.$store.dispatch('getLikeMusic')
-  }
 };
 </script>
     

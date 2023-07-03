@@ -55,12 +55,16 @@ export default {
             return JSON.parse(localStorage.getItem('userLikeMusicList'))? JSON.parse(localStorage.getItem('userLikeMusicList')): this.$store.userLikeMusicList
         }
     },
-    
-    mounted:async function() {
+    methods:{
+        getUserLikeMusicListId :async function(){
+            let userLikeMusicList = await getUserLikeMusicList()
+            this.$store.commit('updateUserLikeMusicList',userLikeMusicList)
+        }
+    },
+    mounted() {
         console.log("------");
         console.log(this.user);
-        let userLikeMusicList = await getUserLikeMusicList()
-        this.$store.commit('updateUserLikeMusicList',userLikeMusicList)
+        this.getUserLikeMusicListId()
     },
 };
 </script>

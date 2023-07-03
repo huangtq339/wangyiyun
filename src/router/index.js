@@ -19,18 +19,12 @@ const routes = [
   {
     path: '/search',
     name: 'search',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "itemMusic" */ '../views/Search.vue')
+    component: () => import('../views/Search.vue')
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "itemMusic" */ '../views/login.vue')
+    component: () => import('../views/login.vue')
   },
   {
     path: '/infoUser',
@@ -43,28 +37,25 @@ const routes = [
         next('/login')
       }
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "itemMusic" */ '../views/infoUser.vue'),
+    component: () => import('../views/infoUser.vue'),
   },
   {
     path: '/likeMusic',
     name: 'likeMusic',
     component: () => import('../views/likeMusic.vue'),
-    children:[
-      {
-        path:'search',
-        name:'search',
-        component: () => import('../components/like/searchLike.vue'),
-      }
-    ]
+    // children:[
+    //   {
+    //     path:'search',
+    //     name:'search',
+    //     component: () => import('../components/like/searchLike.vue'),
+    //   }
+    // ]
   },
   {
     path:'/*',
     name:'NoFound',
     redirect:'/login' // 路由的重定向
-    }
+  }
 ]
 
 const router = createRouter({

@@ -3,7 +3,7 @@
     <svg class="icon" aria-hidden="true" @click="$router.go(-1)">
       <use xlink:href="#icon-zuojiantou"></use>
     </svg>
-    <input type="text" placeholder="陈奕迅" v-model="searchKey" @keydown.enter="enterKey"/>
+    <input type="text" :placeholder=showWord v-model="searchKey" @keydown.enter="enterKey"/>
   </div>
   <div class="searchHistory">
     <span class="searchSpan">历史</span>
@@ -26,8 +26,8 @@
           </div>
         </div>
         <div class="itemRight">
-          <svg class="icon bofang" aria-hidden="true" v-if='item.mvid !=0'>
-            <use xlink:href="#icon-shipin"></use>
+          <svg class="icon bofang" aria-hidden="true" v-if="item.mvid != 0">
+            <use xlink:href="#icon-zhibo"></use>
           </svg>
           <svg class="icon liebiao" aria-hidden="true">
             <use xlink:href="#icon-31liebiao"></use>
@@ -44,6 +44,7 @@ export default {
       keyWorldList: [], //历史列表
       searchKey: "",  //关键字
       searchList: [], //搜索歌曲的列表
+      showWord : '陈奕迅'
     };
   },
   mounted() {
@@ -51,24 +52,32 @@ export default {
   },
   methods: {
     enterKey: async function () {
+      let res = ''
       /* 如果关键词不为空，则压入数组并进行去重 */
       if (this.searchKey !== "") {
         this.keyWorldList.unshift(this.searchKey);
-        // 去重
-        this.keyWorldList = [...new Set(this.keyWorldList)];
-        // 固定长度，如果数组长度大于，则splice方法删除数组最后一个
-        if (this.keyWorldList.length > 10) {
-          this.keyWorldList.splice(this.keyWorldList.length - 1, 1); 
-        }
-        localStorage.setItem("keyWorldList", JSON.stringify(this.keyWorldList));
-        let res = await getSearchMusic(this.searchKey); // 请求搜索的歌曲信息列表
-        this.searchList = res.result.songs;
-        if(!res.result.songs){
-          alert("没有版权哦~")
-        }
-        console.log(this.searchList,"!!!")
-        this.searchKey = "";
+        res = await getSearchMusic(this.searchKey); // 请求搜索的歌曲信息列表
+        // console.log(res,"1111111")
+      }else{
+        this.keyWorldList.unshift(this.showWord);
+        res = await getSearchMusic(this.showWord); // 请求搜索的歌曲信息列表
+        // console.log(res,"2222222")
       }
+      // 去重
+      this.keyWorldList = [...new Set(this.keyWorldList)];
+      // 固定长度，如果数组长度大于，则splice方法删除数组最后一个
+      if (this.keyWorldList.length > 10) {
+        this.keyWorldList.splice(this.keyWorldList.length - 1, 1); 
+      }
+      localStorage.setItem("keyWorldList", JSON.stringify(this.keyWorldList));
+      // let res = await getSearchMusic(this.searchKey); // 请求搜索的歌曲信息列表
+      this.searchList = res.result.songs;
+      if(!res.result.songs){
+        alert("没有版权哦~")
+      }
+      console.log(this.searchList,"!!!")
+      this.searchKey = "";
+
     },
     delHistory: function () {
       localStorage.removeItem("keyWorldList");
@@ -83,7 +92,7 @@ export default {
       }
     },
     updateIndex:function(item){
-        item.al=item.album // 歌曲的新息发生改变了
+        item.al = item.album // 歌曲的新息发生改变了
         item.al.picUrl=item.album.artist.img1v1Url // 歌曲的新息发生改变了
         this.$store.commit("pushPlayList",item)
         this.$store.commit("updatePlayListIndex",this.$store.state.playList.length-1)

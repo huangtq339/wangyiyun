@@ -28,6 +28,9 @@ export default {
             return JSON.parse(localStorage.getItem('userSongList')).playlist[0].coverImgUrl
         }
     },
+    mounted(){
+        this.$store.dispatch('getLikeMusic')
+    }
 }
 </script>
 

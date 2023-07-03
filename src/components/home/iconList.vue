@@ -55,21 +55,21 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: relative;
     .iconItem{
         width: 25%;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        position: relative;
         .icon{
             width: 1rem;
             height: 1rem;
         }
         .day{
             position: absolute;
-            right: 38px;
-            top: 18px;
+            left: .75rem;
+            top: .35rem;
             color:rgb(255, 0, 0);
             font-size: .30rem;
         }

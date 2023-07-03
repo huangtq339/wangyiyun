@@ -3,9 +3,9 @@
         <div class="footerLeft" @click="updateDetailShow">
             <img :src="playList[playListIndex].al.picUrl" alt="">
             <div>
-                <span class="music-name">{{playList[playListIndex].al.name}}</span>
+                <span class="music-name">{{playList[playListIndex].name}}</span>
                 <span class="sub"></span>
-                <span class="autor-name" v-for="(item,index) in playList[playListIndex].ar" :key="index">
+                <span class="autor-name" v-for="(item,index) in playList[playListIndex].artists" :key="index">
                     {{item.name}}
                 </span>
             </div>
@@ -52,6 +52,8 @@ export default {
     mounted(){
         this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
         this.updateTime()  // 底部播放的时候，歌词就要开始轮动了
+        // console.log(this.playListIndex)
+        console.log(this.playList)
     },
     updated() {
         this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
